@@ -1,9 +1,31 @@
-import {StyleSheet, TextInput, View} from "react-native";
+import {StyleSheet, TextInput, View, Alert} from "react-native";
 import {useState} from "react";
 import PrimaryButton from "../components/PrimaryButton";
+import colors from "../utils/colors";
 
-const StartGameScreen = () => {
-    const [number, setNumber] = useState()
+const StartGameScreen = ({ onStart }) => {
+    const [number, setNumber] = useState('')
+
+    const resetHandler = () => {
+        setNumber('')
+    }
+
+    const confirmHandler = () => {
+        const entered = parseInt(number)
+        if (isNaN(entered) || entered > 99 || entered < 1) {
+            Alert.alert('Invalid number!', 'Number has to be between 1 and 99', [
+                {
+                    text: 'OKAY',
+                    style: 'destructive',
+                    onPress: resetHandler
+                }
+            ])
+            return
+        }
+
+        onStart(entered)
+    }
+
     return (
         <View style={styles.container}>
             <TextInput
@@ -17,10 +39,10 @@ const StartGameScreen = () => {
             />
             <View style={styles.actions}>
                 <View style={styles.action}>
-                    <PrimaryButton>Reset</PrimaryButton>
+                    <PrimaryButton onPress={resetHandler}>Reset</PrimaryButton>
                 </View>
                 <View style={styles.action}>
-                    <PrimaryButton>Confirm</PrimaryButton>
+                    <PrimaryButton onPress={confirmHandler}>Confirm</PrimaryButton>
                 </View>
             </View>
         </View>
@@ -29,13 +51,13 @@ const StartGameScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 80,
+        marginTop: 32,
         marginHorizontal: 16,
         padding: 16,
         borderRadius: 12,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#ac6dd8',
+        backgroundColor: colors.primary500,
         gap: 16
     },
     input: {
@@ -43,7 +65,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#6d289c',
+        color: colors.primary700,
         backgroundColor: 'white',
         borderRadius: 6,
         width: 80,
