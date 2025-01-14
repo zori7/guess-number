@@ -9,6 +9,7 @@ const InstructionText = ({ children, style }) => {
 
 const styles = StyleSheet.create({
     instructionText: {
+        fontFamily: 'open-sans',
         color: colors.primary700,
         fontSize: 24
     }
