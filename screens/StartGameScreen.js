@@ -1,4 +1,4 @@
-import {StyleSheet, TextInput, View, Alert, Text} from "react-native";
+import {StyleSheet, TextInput, View, Alert, Text, TouchableWithoutFeedback, Keyboard} from "react-native";
 import {useState} from "react";
 import PrimaryButton from "../components/PrimaryButton";
 import colors from "../utils/colors";
@@ -11,6 +11,7 @@ const StartGameScreen = ({ onStart }) => {
 
     const resetHandler = () => {
         setNumber('')
+        Keyboard.dismiss()
     }
 
     const confirmHandler = () => {
@@ -30,29 +31,31 @@ const StartGameScreen = ({ onStart }) => {
     }
 
     return (
-        <View style={styles.rootContainer}>
-            <Title>Guess My Number</Title>
-            <Card>
-                <InstructionText>Enter a number</InstructionText>
-                <TextInput
-                    style={styles.input}
-                    value={number}
-                    onChangeText={(v) => setNumber(v)}
-                    keyboardType="number-pad"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    maxLength={2}
-                />
-                <View style={styles.actions}>
-                    <View style={styles.action}>
-                        <PrimaryButton onPress={resetHandler}>Reset</PrimaryButton>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.rootContainer}>
+                <Title>Guess My Number</Title>
+                <Card>
+                    <InstructionText>Enter a number</InstructionText>
+                    <TextInput
+                        style={styles.input}
+                        value={number}
+                        onChangeText={(v) => setNumber(v)}
+                        keyboardType="number-pad"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        maxLength={2}
+                    />
+                    <View style={styles.actions}>
+                        <View style={styles.action}>
+                            <PrimaryButton onPress={resetHandler}>Reset</PrimaryButton>
+                        </View>
+                        <View style={styles.action}>
+                            <PrimaryButton onPress={confirmHandler}>Confirm</PrimaryButton>
+                        </View>
                     </View>
-                    <View style={styles.action}>
-                        <PrimaryButton onPress={confirmHandler}>Confirm</PrimaryButton>
-                    </View>
-                </View>
-            </Card>
-        </View>
+                </Card>
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 

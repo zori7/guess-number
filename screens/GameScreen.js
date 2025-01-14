@@ -8,7 +8,7 @@ import Card from "../components/Card";
 import InstructionText from "../components/InstructionText";
 import Ionicons from "@expo/vector-icons/Ionicons"
 
-const GameScreen = ({ number, onGameOver }) => {
+const GameScreen = ({ number, onGameOver, onIncrementRound }) => {
     const [min, setMin] = useState(1)
     const [max, setMax] = useState(100)
     const [guess, setGuess] = useState(null)
@@ -18,6 +18,8 @@ const GameScreen = ({ number, onGameOver }) => {
 
         const newGuess = generateRandomBetween(min, max, guess)
         setGuess(newGuess)
+
+        onIncrementRound()
 
         if (newGuess === number) {
             onGameOver()
