@@ -4,6 +4,9 @@ import Title from "../components/Title";
 import {useEffect, useState} from "react";
 import {generateRandomBetween} from "../utils/random";
 import NumberContainer from "../components/game/NumberContainer";
+import Card from "../components/Card";
+import InstructionText from "../components/InstructionText";
+import Ionicons from "@expo/vector-icons/Ionicons"
 
 const GameScreen = ({ number, onGameOver }) => {
     const [min, setMin] = useState(1)
@@ -44,14 +47,22 @@ const GameScreen = ({ number, onGameOver }) => {
             <Title>Opponent's guess</Title>
             <NumberContainer>{guess}</NumberContainer>
 
-            <View>
-                <Text>Higher or lower?</Text>
+            <Card>
+                <InstructionText style={styles.instructionText}>Higher or lower?</InstructionText>
 
                 <View style={styles.actions}>
-                    <PrimaryButton onPress={() => nextGuessHandler('-')}>-</PrimaryButton>
-                    <PrimaryButton onPress={() => nextGuessHandler('+')}>+</PrimaryButton>
+                    <View style={styles.action}>
+                        <PrimaryButton onPress={() => nextGuessHandler('-')}>
+                            <Ionicons name="remove" size={24} color="white" />
+                        </PrimaryButton>
+                    </View>
+                    <View style={styles.action}>
+                        <PrimaryButton onPress={() => nextGuessHandler('+')}>
+                            <Ionicons name="add" size={24} color="white" />
+                        </PrimaryButton>
+                    </View>
                 </View>
-            </View>
+            </Card>
         </View>
     )
 }
@@ -64,11 +75,17 @@ const styles = StyleSheet.create({
         padding: 16,
         gap: 16
     },
+    instructionText: {
+        marginBottom: 8,
+        fontSize: 20
+    },
     actions: {
         flexDirection: 'row',
-        justifyContent: 'center',
         gap: 16
     },
+    action: {
+        flex: 1
+    }
 })
 
 export default GameScreen
