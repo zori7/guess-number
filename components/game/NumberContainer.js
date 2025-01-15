@@ -1,5 +1,8 @@
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View, Dimensions} from "react-native";
 import colors from "../../utils/colors";
+
+const deviceWidth = Dimensions.get('window').width
+const isSmallScreen = deviceWidth < 400
 
 const NumberContainer = ({ children }) => {
     return (
@@ -13,15 +16,15 @@ const styles = StyleSheet.create({
     container: {
         borderWidth: 2,
         borderColor: colors.blue,
-        padding: 24,
-        margin: 24,
+        padding: isSmallScreen ? 16: 24,
+        margin: isSmallScreen ? 16 : 24,
         borderRadius: 16,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#ffffffaa'
     },
     text: {
-        fontSize: 32,
+        fontSize: isSmallScreen ? 24 : 32,
         fontFamily: 'open-sans-bold',
         color: colors.primary500
     }

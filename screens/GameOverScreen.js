@@ -1,23 +1,31 @@
-import {Image, StyleSheet, Text, View} from "react-native";
+import {Image, ScrollView, StyleSheet, Text, useWindowDimensions, View} from "react-native";
 import Title from "../components/Title";
 import colors from "../utils/colors";
 import PrimaryButton from "../components/PrimaryButton";
 
 const GameOverScreen = ({ rounds, number, onRestart }) => {
+    const { height, width } = useWindowDimensions()
+    const isSmallScreen = height < 540 || width < 400
+
     return (
-        <View style={styles.container}>
-            <Title>
-                Game is Over!
-            </Title>
+        <ScrollView style={{flex: 1}}>
+            <View style={styles.container}>
+                <Title>
+                    Game is Over!
+                </Title>
 
-            <View style={styles.imageContainer}>
-                <Image source={require('../assets/success.png')} style={styles.image} />
+                <View style={[{
+                    width: isSmallScreen ? 150 : 300,
+                    height: isSmallScreen ? 150 : 300,
+                }, styles.imageContainer]}>
+                    <Image source={require('../assets/success.png')} style={styles.image} />
+                </View>
+
+                <Text style={styles.summary}>Needed <Text style={styles.glow}>{rounds}</Text> rounds to guess the number <Text style={styles.glow}>{number}</Text></Text>
+
+                <PrimaryButton onPress={onRestart}>New Game</PrimaryButton>
             </View>
-
-            <Text style={styles.summary}>Needed <Text style={styles.glow}>{rounds}</Text> rounds to guess the number <Text style={styles.glow}>{number}</Text></Text>
-
-            <PrimaryButton onPress={onRestart}>New Game</PrimaryButton>
-        </View>
+        </ScrollView>
     )
 }
 
@@ -30,8 +38,6 @@ const styles = StyleSheet.create({
         gap: 24
     },
     imageContainer: {
-        width: 300,
-        height: 300,
         borderRadius: 150,
         borderWidth: 3,
         borderColor: colors.primary500,

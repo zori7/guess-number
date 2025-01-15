@@ -1,4 +1,4 @@
-import {Alert, StyleSheet, Text, View} from "react-native";
+import {Alert, Dimensions, StyleSheet, Text, useWindowDimensions, View} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import Title from "../components/Title";
 import {useEffect, useState} from "react";
@@ -8,7 +8,13 @@ import Card from "../components/Card";
 import InstructionText from "../components/InstructionText";
 import Ionicons from "@expo/vector-icons/Ionicons"
 
+const deviceWidth = Dimensions.get('window').width
+const isSmallScreen = deviceWidth < 400
+
 const GameScreen = ({ number, onGameOver, onIncrementRound }) => {
+    const { height } = useWindowDimensions()
+    const isLandscape = height < 540
+
     const [min, setMin] = useState(1)
     const [max, setMax] = useState(100)
     const [guess, setGuess] = useState(null)
@@ -46,8 +52,17 @@ const GameScreen = ({ number, onGameOver, onIncrementRound }) => {
 
     return (
         <View style={styles.container}>
-            <Title>Opponent's guess</Title>
-            <NumberContainer>{guess}</NumberContainer>
+            {isLandscape ? (
+                <View style={styles.guessContainer}>
+                    <Title>Opponent's guess</Title>
+                    <NumberContainer>{guess}</NumberContainer>
+                </View>
+            ) : (
+                <>
+                    <Title>Opponent's guess</Title>
+                    <NumberContainer>{guess}</NumberContainer>
+                </>
+            )}
 
             <Card>
                 <InstructionText style={styles.instructionText}>Higher or lower?</InstructionText>
@@ -72,9 +87,15 @@ const GameScreen = ({ number, onGameOver, onIncrementRound }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 32,
+        marginTop: isSmallScreen ? 16 : 32,
         marginHorizontal: 16,
         padding: 16,
+        gap: isSmallScreen ? 8 : 16,
+        alignItems: 'center'
+    },
+    guessContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
         gap: 16
     },
     instructionText: {

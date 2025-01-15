@@ -1,4 +1,4 @@
-import {StyleSheet, TextInput, View, Alert, Text, TouchableWithoutFeedback, Keyboard} from "react-native";
+import {StyleSheet, TextInput, View, Alert, TouchableWithoutFeedback, Keyboard, useWindowDimensions} from "react-native";
 import {useState} from "react";
 import PrimaryButton from "../components/PrimaryButton";
 import colors from "../utils/colors";
@@ -7,6 +7,9 @@ import Card from "../components/Card";
 import InstructionText from "../components/InstructionText";
 
 const StartGameScreen = ({ onStart }) => {
+    const { height } = useWindowDimensions()
+    const isLandscape = height < 540
+
     const [number, setNumber] = useState('')
 
     const resetHandler = () => {
@@ -32,7 +35,7 @@ const StartGameScreen = ({ onStart }) => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.rootContainer}>
+            <View style={[{marginTop: isLandscape ? 24 : 100}, styles.rootContainer]}>
                 <Title>Guess My Number</Title>
                 <Card>
                     <InstructionText>Enter a number</InstructionText>
@@ -62,7 +65,6 @@ const StartGameScreen = ({ onStart }) => {
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-        marginTop: 100,
         alignItems: 'center'
     },
     input: {
